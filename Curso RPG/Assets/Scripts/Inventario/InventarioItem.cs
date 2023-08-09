@@ -24,6 +24,13 @@ public class InventarioItem : ScriptableObject
     public bool EsConsumible;
     public bool EsAcumulable;
     public int AcumulacionMax;
-    public int Cantidad;
+
+    [HideInInspector] public int Cantidad;
+
+    public InventarioItem CopiarItem()
+    {
+        InventarioItem nuevaInstancia = Instantiate(this);
+        return nuevaInstancia;
+    }
     
 }
