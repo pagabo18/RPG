@@ -14,25 +14,29 @@ public class Inventario : Singleton<Inventario>
         itemsInventario = new InventarioItem[numeroDeSlots];
     }
 
-    public void AñadirItem(InventarioItem ItemPorAñadir, int cantidad)
+    public void AñadirItem(InventarioItem itemPorAñadir, int cantidad)
     {
-        if (ItemPorAñadir == null) return;
+        if (itemPorAñadir == null) return;
 
-        List<int> indexes = VerificarExistencias(ItemPorAñadir.ID);
+        List<int> indexes = VerificarExistencias(itemPorAñadir.ID);
    
-        if(ItemPorAñadir.EsAcumulable){
+        if(itemPorAñadir.EsAcumulable){
             if(indexes.Count > 0){
                 for(int i = 0 ; i < indexes.Count; i++)
                 {
-                    if(itemsInventario[indexes[i]].Cantidad < ItemPorAñadir.AcumulacionMax ){
+                    if(itemsInventario[indexes[i]].Cantidad < itemPorAñadir.AcumulacionMax ){
 
                         itemsInventario[indexes[i]].Cantidad += cantidad;
-                        if( itemsInventario[indexes[i]].Cantidad >ItemPorAñadir.AcumulacionMax)
+                        if( itemsInventario[indexes[i]].Cantidad >itemPorAñadir.AcumulacionMax)
                         {
-                            int diferencia = itemsInventario[indexes[i]].Cantidad - ItemPorAñadir.AcumulacionMax;
-                            itemsInventario[indexes[i]].Cantidad = ItemPorAñadir.AcumulacionMax;
-                            AñadirItem(ItemPorAñadir,diferencia);
+                            int diferencia = itemsInventario[indexes[i]].Cantidad - itemPorAñadir.AcumulacionMax;
+                            itemsInventario[indexes[i]].Cantidad = itemPorAñadir.AcumulacionMax;
+                            AñadirItem(itemPorAñadir,diferencia);
+
                         }   
+
+                        InventarioUI.Instance.DibujarItemEnInventario(itemPorAñadir, itemsInventario[indexes[i]].Cantidad, indexes[i]);
+                        return;
                     }
                 }
             }
@@ -41,13 +45,13 @@ public class Inventario : Singleton<Inventario>
             return;
         } 
 
-        if(cantidad > ItemPorAñadir.AcumulacionMax){
-            AñadirItemEnSlotDisponible(ItemPorAñadir,ItemPorAñadir.AcumulacionMax);
-            cantidad -= ItemPorAñadir.AcumulacionMax;
-            AñadirItem(ItemPorAñadir, cantidad);
+        if(cantidad > itemPorAñadir.AcumulacionMax){
+            AñadirItemEnSlotDisponible(itemPorAñadir,itemPorAñadir.AcumulacionMax);
+            cantidad -= itemPorAñadir.AcumulacionMax;
+            AñadirItem(itemPorAñadir, cantidad);
         }
         else{
-            AñadirItemEnSlotDisponible(ItemPorAñadir,cantidad);
+            AñadirItemEnSlotDisponible(itemPorAñadir,cantidad);
         }
 
     }
@@ -73,6 +77,7 @@ public class Inventario : Singleton<Inventario>
             {
                 itemsInventario[i] = item.CopiarItem();
                 itemsInventario[i].Cantidad = cantidad;
+                InventarioUI.Instance.DibujarItemEnInventario(item, cantidad, i);
                 return;
             }
         }
