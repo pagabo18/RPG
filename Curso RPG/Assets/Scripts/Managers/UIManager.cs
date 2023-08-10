@@ -106,33 +106,16 @@ public class UIManager : Singleton<UIManager>
     }
 
     #region Paneles
-    // public void AbrircCerrarPanelStats()
-    // {
-    //     panelStats.SetActive(!panelStats.activeSelf);
-    // }
 
-    // public void AbrircCerrarPanelInventario()
-    // {
-    //     panelInventario.SetActive(!panelInventario.activeSelf);
-    // }
-
-    public void AbrircCerrarPanelStats()
-{
-    if (panelInventario.activeSelf)
+    public void AbrirCerrarPanelStats()
     {
-        panelInventario.SetActive(false);
+        panelStats.SetActive(!panelStats.activeSelf);
     }
-    panelStats.SetActive(!panelStats.activeSelf);
-}
 
-public void AbrircCerrarPanelInventario()
-{
-    if (panelStats.activeSelf)
+    public void AbrirCerrarPanelInventario()
     {
-        panelStats.SetActive(false);
+        panelInventario.SetActive(!panelInventario.activeSelf);
     }
-    panelInventario.SetActive(!panelInventario.activeSelf);
-}
 
     #endregion
 }
