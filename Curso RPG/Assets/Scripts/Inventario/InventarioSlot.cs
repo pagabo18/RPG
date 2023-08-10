@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
+public enum Ti
 public class InventarioSlot : MonoBehaviour
 {
     [SerializeField] private Image itemIcono;
